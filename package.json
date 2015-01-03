@@ -21,6 +21,7 @@
     "kinda-config": "^0.2.2",
     "kinda-http-client": "^0.1.0",
     "kinda-log": "^0.1.0",
+    "kinda-object": "^0.1.0",
     "lodash": "^2.4.1"
   }
 }
