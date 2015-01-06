@@ -16,7 +16,9 @@ var KindaNotification = KindaObject.extend('KindaNotification', function() {
       });
     }
     this.config = config;
-    this.sender = config.sender || mainConfig.name + '@' + os.hostname();
+    var hostname = os.hostname();
+    if (hostname.slice(-6) === '.local') hostname = hostname.slice(0, -6);
+    this.sender = config.sender || mainConfig.name + '@' + hostname;
   });
 
   this._services = {}; // Shared across all instances
