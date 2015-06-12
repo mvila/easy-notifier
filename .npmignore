@@ -1,0 +1,5 @@
+# ES6 source directory
+src
+
+# Private information
+slack-url.js

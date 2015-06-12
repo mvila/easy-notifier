@@ -13,5 +13,8 @@ pids
 # Dependency directory
 node_modules
 
-# Secret keys
-examples/slack-incoming-webhook/config.js
+# Private information
+slack-url.js
+
+# Build directory
+lib
