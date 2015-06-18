@@ -1,10 +1,10 @@
 {
-  "name": "kinda-notification",
+  "name": "kinda-notifier",
   "version": "0.2.0",
   "description": "...",
   "repository": {
     "type": "git",
-    "url": "git://github.com/kinda/kinda-notification"
+    "url": "git://github.com/kinda/kinda-notifier"
   },
   "main": "lib/index.js",
   "scripts": {

@@ -10,7 +10,7 @@ if (_.endsWith(hostName, '.local')) {
   hostName = hostName.slice(0, -('.local'.length));
 }
 
-let KindaNotification = KindaObject.extend('KindaNotification', function() {
+let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   this.creator = function(options = {}) {
     _.defaults(options, { hostName, targets: [] });
     let sender = options.sender;
@@ -65,4 +65,4 @@ let KindaNotification = KindaObject.extend('KindaNotification', function() {
   };
 });
 
-module.exports = KindaNotification;
+module.exports = KindaNotifier;
