@@ -15,7 +15,7 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
     _.defaults(options, { hostName, targets: [] });
     let sender = options.sender;
     if (!sender) {
-      sender = _.compact([options.applicationName, options.hostName]).join('@');
+      sender = _.compact([options.appName, options.hostName]).join('@');
     }
     this.sender = sender;
     this.targets = options.targets;
@@ -25,44 +25,17 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
     this.log = log;
   };
 
-  this._services = {}; // Shared across all instances
-
-  this.getService = function(name) {
-    let service = this._services[name];
-    if (!service) throw new Error(`unknown service '${name}'`);
-    return service;
-  };
-
-  this.addService = function(name, service) {
-    this._services[name] = service;
-  };
-
-  this.addService(
-    'slack-incoming-webhook', require('./services/slack-incoming-webhook')
-  );
-
-  this.getServiceInstance = function(name, options) {
-    if (!this._serviceInstanceRecords) this._serviceInstanceRecords = [];
-    let instanceRecord = _.find(this._serviceInstanceRecords, record => {
-      return record.name === name && _.isEqual(record.options, options);
-    });
-    if (instanceRecord) return instanceRecord.instance;
-    let service = this.getService(name);
-    let opts = _.clone(options);
-    opts.sender = this.sender;
-    opts.log = this.log;
-    let instance = service.create(opts);
-    instanceRecord = { name, options, instance };
-    this._serviceInstanceRecords.push(instanceRecord);
-    return instance;
+  this.addTarget = function(target) {
+    this.targets.push(target);
   };
 
   this.send = function(message) {
     this.targets.forEach(target => {
-      let instance = this.getServiceInstance(target.service, target.options);
-      instance.send(message);
+      target.send(this.sender, message);
     });
   };
 });
+
+KindaNotifier.SlackIncomingWebhookTarget = require('./targets/slack-incoming-webhook');
 
 module.exports = KindaNotifier;

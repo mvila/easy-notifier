@@ -5,15 +5,12 @@
 let KindaNotifier = require('../../src');
 let slackURL = require('./slack-url');
 let notifier = KindaNotifier.create({
-  applicationName: 'examples',
+  appName: 'examples',
   targets: [
-    {
-      service: 'slack-incoming-webhook',
-      options: {
-        url: slackURL,
-        channel: '#development'
-      }
-    }
+    KindaNotifier.SlackIncomingWebhookTarget.create({
+      url: slackURL,
+      channel: '#development'
+    })
   ]
 });
 
