@@ -2,6 +2,7 @@
 
 let os = require('os');
 let _ = require('lodash');
+let co = require('co');
 let KindaObject = require('kinda-object');
 let KindaLog = require('kinda-log');
 
@@ -30,9 +31,17 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   };
 
   this.send = function(message) {
-    this.targets.forEach(target => {
-      target.send(this.sender, message);
+    co(function *() {
+      yield this.sendAndWaitUntilCompleted(message);
+    }.bind(this)).catch(err => {
+      this.log.error(err.stack || err);
     });
+  };
+
+  this.sendAndWaitUntilCompleted = function *(message) {
+    for (let target of this.targets) {
+      yield target.send(this.sender, message);
+    }
   };
 });
 
