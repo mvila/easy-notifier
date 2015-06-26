@@ -37,17 +37,22 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
     this.targets.push(target);
   };
 
-  this.send = function(message) {
+  this.send = function(title, message) {
     co(function *() {
-      yield this.sendAndWaitUntilCompleted(message);
+      yield this.sendAndWaitUntilCompleted(title, message);
     }.bind(this)).catch(err => {
       this.log.error(err.stack || err);
     });
   };
 
-  this.sendAndWaitUntilCompleted = function *(message) {
+  this.sendAndWaitUntilCompleted = function *(title, message) {
+    if (!message) {
+      message = title;
+      title = undefined;
+    }
+    if (!message) throw new Error('a \'message\' is required');
     for (let target of this.targets) {
-      yield target.send(this.sender, message);
+      yield target.send(this.sender, title, message);
     }
   };
 });

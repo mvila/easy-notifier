@@ -17,7 +17,8 @@ let SlackIncomingWebhookTarget = KindaObject.extend('SlackIncomingWebhookTarget'
     this.log = log;
   };
 
-  this.send = function *(sender, message) {
+  this.send = function *(sender, title, message) {
+    if (title) message = `*${title}*: ${message}`;
     let payload = {
       channel: this.channel,
       username: sender,

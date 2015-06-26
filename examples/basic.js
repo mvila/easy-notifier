@@ -6,4 +6,4 @@ let KindaNotifier = require('../src');
 
 let notifier = KindaNotifier.create();
 
-notifier.send('Hello, World!');
+notifier.send('Welcome Message', 'Hello, World!');

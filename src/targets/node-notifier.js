@@ -4,8 +4,11 @@ let KindaObject = require('kinda-object');
 let notifier = require('node-notifier');
 
 let NodeNotifierTarget = KindaObject.extend('NodeNotifierTarget', function() {
-  this.send = function *(sender, message) {
-    notifier.notify({ title: sender, message });
+  this.send = function *(sender, title, message) {
+    message += ` (${sender})`;
+    let options = { message };
+    if (title) options.title = title;
+    notifier.notify(options);
   };
 });
 
