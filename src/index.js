@@ -13,12 +13,19 @@ if (_.endsWith(hostName, '.local')) {
 
 let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   this.creator = function(options = {}) {
-    _.defaults(options, { hostName, targets: [] });
+    _.defaults(options, { hostName });
+
     let sender = options.sender;
     if (!sender) {
       sender = _.compact([options.appName, options.hostName]).join('@');
     }
     this.sender = sender;
+
+    if (!options.targets) {
+      let target = KindaNotifier.NodeNotifierTarget.create();
+      options.targets = [target];
+    }
+
     this.targets = options.targets;
 
     let log = options.log;
@@ -46,5 +53,6 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
 });
 
 KindaNotifier.SlackIncomingWebhookTarget = require('./targets/slack-incoming-webhook');
+KindaNotifier.NodeNotifierTarget = require('./targets/node-notifier');
 
 module.exports = KindaNotifier;
