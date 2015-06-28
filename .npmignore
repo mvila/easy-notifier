@@ -1,5 +1,7 @@
-# ES6 source directory
+.eslintrc
+.npmignore
+.travis.yml
 src
-
-# Private information
+test.js
+examples
 slack-url.js
