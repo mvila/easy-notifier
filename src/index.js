@@ -7,21 +7,40 @@ let KindaLog = require('kinda-log');
 let util = require('kinda-util').create();
 
 let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
+  // options:
+  //   sender
+  //   appName
+  //   hostName
+  //   targets
+  //   includeEnvironment (default: true)
+  //   log
   this.creator = function(options = {}) {
-    _.defaults(options, { hostName: util.getHostName() });
-
     let sender = options.sender;
     if (!sender) {
-      sender = _.compact([options.appName, options.hostName]).join('@');
+      let includeEnvironment = options.includeEnvironment;
+      if (includeEnvironment == null) includeEnvironment = true;
+
+      let appName = options.appName;
+      if (includeEnvironment) {
+        if (appName) appName += '.'; else appName = '';
+        appName += util.getEnvironment();
+      }
+
+      let hostName = options.hostName;
+      if (!hostName) hostName = util.getHostName();
+
+      sender = appName;
+      if (sender) sender += '@'; else sender = '';
+      sender += hostName;
     }
     this.sender = sender;
 
-    if (!options.targets) {
+    let targets = options.targets;
+    if (!targets) {
       let target = KindaNotifier.NodeNotifierTarget.create();
-      options.targets = [target];
+      targets = [target];
     }
-
-    this.targets = options.targets;
+    this.targets = targets;
 
     let log = options.log;
     if (!KindaLog.isClassOf(log)) log = KindaLog.create(log);
