@@ -23,6 +23,7 @@
     "kinda-http-client": "^0.2.0",
     "kinda-log": "^0.2.0",
     "kinda-object": "^0.2.0",
+    "kinda-util": "^0.2.0",
     "lodash": "^3.9.1",
     "node-notifier": "^4.2.3"
   },

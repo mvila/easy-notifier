@@ -4,6 +4,6 @@
 
 let KindaNotifier = require('../src');
 
-let notifier = KindaNotifier.create();
+let notifier = KindaNotifier.create({ appName: 'examples' });
 
 notifier.send('Welcome Message', 'Hello, World!');
