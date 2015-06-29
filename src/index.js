@@ -1,19 +1,14 @@
 'use strict';
 
-let os = require('os');
 let _ = require('lodash');
 let co = require('co');
 let KindaObject = require('kinda-object');
 let KindaLog = require('kinda-log');
-
-let hostName = os.hostname();
-if (_.endsWith(hostName, '.local')) {
-  hostName = hostName.slice(0, -('.local'.length));
-}
+let util = require('kinda-util').create();
 
 let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   this.creator = function(options = {}) {
-    _.defaults(options, { hostName });
+    _.defaults(options, { hostName: util.getHostName() });
 
     let sender = options.sender;
     if (!sender) {
