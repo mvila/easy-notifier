@@ -1,6 +1,5 @@
 'use strict';
 
-let _ = require('lodash');
 let co = require('co');
 let KindaObject = require('kinda-object');
 let KindaLog = require('kinda-log');
