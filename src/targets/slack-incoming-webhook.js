@@ -17,14 +17,14 @@ let SlackIncomingWebhookTarget = KindaObject.extend('SlackIncomingWebhookTarget'
     this.log = log;
   };
 
-  this.send = function *(sender, title, message) {
+  this.send = async function(sender, title, message) {
     if (title) message = `*${title}*: ${message}`;
     let payload = {
       channel: this.channel,
       username: sender,
       text: '<!channel> ' + message
     };
-    let result = yield httpClient.post({ url: this.url, body: payload, json: true });
+    let result = await httpClient.post({ url: this.url, body: payload, json: true });
     if (result.body !== 'ok') {
       this.log.error(new Error(`an error occured while sending a Slack notification (${result.body})`));
     }

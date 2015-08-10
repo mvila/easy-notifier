@@ -20,7 +20,6 @@
   "author": "Manuel Vila <mvila@3base.com>",
   "license": "MIT",
   "dependencies": {
-    "co": "^4.5.4",
     "kinda-http-client": "^0.2.0",
     "kinda-log": "^0.2.0",
     "kinda-object": "^0.3.0",

@@ -1,6 +1,5 @@
 'use strict';
 
-let co = require('co');
 let KindaObject = require('kinda-object');
 let KindaLog = require('kinda-log');
 let util = require('kinda-util').create();
@@ -51,21 +50,21 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   };
 
   this.send = function(title, message) {
-    co(function *() {
-      yield this.sendAndWaitUntilCompleted(title, message);
-    }.bind(this)).catch(err => {
+    (async function() {
+      await this.sendAndWaitUntilCompleted(title, message);
+    }).call(this).catch(err => {
       this.log.error(err.stack || err);
     });
   };
 
-  this.sendAndWaitUntilCompleted = function *(title, message) {
+  this.sendAndWaitUntilCompleted = async function(title, message) {
     if (!message) {
       message = title;
       title = undefined;
     }
     if (!message) throw new Error('a \'message\' is required');
     for (let target of this.targets) {
-      yield target.send(this.sender, title, message);
+      await target.send(this.sender, title, message);
     }
   };
 });
