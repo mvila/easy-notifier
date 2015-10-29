@@ -1,6 +1,6 @@
 {
   "name": "easy-notifier",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Flexible notifier with desktop and Slack targets",
   "author": "Manuel Vila <mvila@3base.com>",
   "license": "MIT",
