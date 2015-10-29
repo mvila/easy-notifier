@@ -1,15 +1,14 @@
 'use strict';
 
-let KindaObject = require('kinda-object');
-let notifier = require('node-notifier');
+let nodeNotifier = require('node-notifier');
 
-let NodeNotifierTarget = KindaObject.extend('NodeNotifierTarget', function() {
-  this.send = async function(sender, title, message) {
+export class NodeNotifierTarget {
+  async send(sender, title, message) {
     message += ` (${sender})`;
     let options = { message };
     if (title) options.title = title;
-    notifier.notify(options);
-  };
-});
+    nodeNotifier.notify(options);
+  }
+}
 
-module.exports = NodeNotifierTarget;
+export default NodeNotifierTarget;

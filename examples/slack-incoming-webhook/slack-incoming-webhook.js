@@ -2,16 +2,16 @@
 
 // ./node_modules/.bin/babel-node --harmony examples/slack-incoming-webhook/slack-incoming-webhook.js
 
-let KindaNotifier = require('../../src');
-let slackURL = require('./slack-url');
-let notifier = KindaNotifier.create({
+import EasyNotifier, { SlackIncomingWebhookTarget } from '../../src/';
+import slackURL from './slack-url';
+
+let notifier = new EasyNotifier({
   appName: 'examples',
   targets: [
-    KindaNotifier.SlackIncomingWebhookTarget.create({
-      url: slackURL,
+    new SlackIncomingWebhookTarget(slackURL, {
       channel: '#development'
     })
   ]
 });
 
-notifier.send('Welcome Message', 'Hello, World!');
+notifier.notify('Welcome Message', 'Hello, World!');

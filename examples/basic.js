@@ -2,8 +2,8 @@
 
 // ./node_modules/.bin/babel-node --harmony examples/basic.js
 
-let KindaNotifier = require('../src');
+import EasyNotifier from '../src/';
 
-let notifier = KindaNotifier.create({ appName: 'examples' });
+let notifier = new EasyNotifier({ appName: 'examples' });
 
-notifier.send('Welcome Message', 'Hello, World!');
+notifier.notify('Welcome Message', 'Hello, World!');

@@ -1,10 +1,11 @@
 'use strict';
 
-let KindaObject = require('kinda-object');
-let KindaLog = require('kinda-log');
-let util = require('kinda-util').create();
+import environment from 'better-node-env';
+import betterHostname from 'better-hostname';
 
-let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
+import NodeNotifierTarget from './targets/node-notifier';
+
+export class EasyNotifier {
   // options:
   //   sender
   //   appName
@@ -12,7 +13,7 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
   //   targets
   //   includeEnvironment (default: true)
   //   log
-  this.creator = function(options = {}) {
+  constructor(options = {}) {
     let sender = options.sender;
     if (!sender) {
       let includeEnvironment = options.includeEnvironment;
@@ -21,11 +22,11 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
       let appName = options.appName;
       if (includeEnvironment) {
         if (appName) appName += '.'; else appName = '';
-        appName += util.getEnvironment();
+        appName += environment;
       }
 
       let hostName = options.hostName;
-      if (!hostName) hostName = util.getHostName();
+      if (!hostName) hostName = betterHostname;
 
       sender = appName;
       if (sender) sender += '@'; else sender = '';
@@ -35,41 +36,28 @@ let KindaNotifier = KindaObject.extend('KindaNotifier', function() {
 
     let targets = options.targets;
     if (!targets) {
-      let target = KindaNotifier.NodeNotifierTarget.create();
+      let target = new NodeNotifierTarget();
       targets = [target];
     }
     this.targets = targets;
+  }
 
-    let log = options.log;
-    if (!KindaLog.isClassOf(log)) log = KindaLog.create(log);
-    this.log = log;
-  };
-
-  this.addTarget = function(target) {
+  addTarget(target) {
     this.targets.push(target);
-  };
+  }
 
-  this.send = function(title, message) {
-    (async function() {
-      await this.sendAndWaitUntilCompleted(title, message);
-    }).call(this).catch(err => {
-      this.log.error(err.stack || err);
-    });
-  };
-
-  this.sendAndWaitUntilCompleted = async function(title, message) {
+  async notify(title, message) {
     if (!message) {
       message = title;
       title = undefined;
     }
-    if (!message) throw new Error('a \'message\' is required');
+    if (!message) throw new Error('A \'message\' is required');
     for (let target of this.targets) {
       await target.send(this.sender, title, message);
     }
-  };
-});
+  }
+}
 
-KindaNotifier.SlackIncomingWebhookTarget = require('./targets/slack-incoming-webhook');
-KindaNotifier.NodeNotifierTarget = require('./targets/node-notifier');
-
-module.exports = KindaNotifier;
+export default EasyNotifier;
+export { NodeNotifierTarget };
+export { SlackIncomingWebhookTarget } from './targets/slack-incoming-webhook';
