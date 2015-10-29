@@ -15,7 +15,7 @@ import EasyNotifier from 'easy-notifier';
 
 let notifier = new EasyNotifier({ appName: 'example' });
 
-notifier.send('Welcome Message', 'Hello, World!');
+notifier.notify('Welcome Message', 'Hello, World!');
 ```
 
 ## Concepts
