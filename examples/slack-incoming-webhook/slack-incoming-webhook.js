@@ -1,6 +1,6 @@
 'use strict';
 
-// ./node_modules/.bin/babel-node --harmony examples/slack-incoming-webhook/slack-incoming-webhook.js
+// babel-node examples/slack-incoming-webhook/slack-incoming-webhook.js
 
 import EasyNotifier, { SlackIncomingWebhookTarget } from '../../src/';
 import slackURL from './slack-url';

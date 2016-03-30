@@ -1,6 +1,6 @@
 'use strict';
 
-// ./node_modules/.bin/babel-node --harmony examples/basic.js
+// babel-node examples/basic.js
 
 import EasyNotifier from '../src/';
 
