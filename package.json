@@ -4,6 +4,9 @@
   "description": "Flexible notifier with desktop and Slack targets",
   "author": "Manuel Vila <mvila@3base.com>",
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "repository": {
     "type": "git",
